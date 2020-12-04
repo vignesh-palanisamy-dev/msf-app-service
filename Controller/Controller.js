@@ -25,6 +25,6 @@ controller.use(env.parsed.CONTEXT_PATH,multipluxer);
 // example : true allow { Name : 'John Smith', Age: 23} but false allow only Name=John+Smith&Age=23
 controller.use(express.urlencoded({ extended: true }));
 
-controller.listen(port, () => {
+controller.listen(process.env.PORT, () => {
     console.log("##### LOG : "+new Date().toISOString() + ": MSF App Service Connected At PORT " + port);
 });
