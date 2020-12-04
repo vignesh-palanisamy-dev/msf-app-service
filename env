@@ -1,4 +1,4 @@
-PORT=5000
+PORT=3000
 JWT_SECRET_KEY = '$2a$10$MnPdMfK7Wk9NginWWcNeq.wVAdC.kWLX1C.KqHYeiPhd1t/CM/RR'
 CONTEXT_PATH = /msf-app-serve-node
 MAIL_SOURCE= gmail

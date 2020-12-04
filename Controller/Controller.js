@@ -8,7 +8,7 @@ const multipluxer = require("./Multipluxer");
 const env = require("dotenv").config({ path: require("find-config")("env") });
 
 // Default aign of port if it is unavailable form env.
-const port = env.parsed.PORT || 5000;
+const port = env.parsed.PORT || 3000;
 
 // Allow all origin to access this server resource.
 // In Production :  Need to allow particular origin. 
