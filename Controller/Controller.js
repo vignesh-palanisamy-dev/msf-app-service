@@ -8,7 +8,8 @@ const multipluxer = require("./Multipluxer");
 const env = require("dotenv").config({ path: require("find-config")("env") });
 
 // Default aign of port if it is unavailable form env.
-const port = env.parsed.PORT || 3000;
+// But in heroku it need process.env.PORT  (they add port in .env dynamically)
+const port = process.env.PORT || env.parsed.PORT || 3000;
 
 // Allow all origin to access this server resource.
 // In Production :  Need to allow particular origin. 
@@ -25,6 +26,6 @@ controller.use(env.parsed.CONTEXT_PATH,multipluxer);
 // example : true allow { Name : 'John Smith', Age: 23} but false allow only Name=John+Smith&Age=23
 controller.use(express.urlencoded({ extended: true }));
 
-controller.listen(process.env.PORT, () => {
+controller.listen(port, () => {
     console.log("##### LOG : "+new Date().toISOString() + ": MSF App Service Connected At PORT " + port);
 });
