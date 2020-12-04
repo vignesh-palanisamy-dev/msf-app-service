@@ -1,6 +1,6 @@
 const fs = require('fs');
 const nodemailer = require('nodemailer');
-const env = require('dotenv').config({ path: require('find-config')('.env') });
+const env = require('dotenv').config({ path: require('find-config')('env') });
 const transporter = nodemailer.createTransport({
     service: env.parsed.MAIL_SOURCE,
     auth: {

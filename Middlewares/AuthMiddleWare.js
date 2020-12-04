@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const logger = require("../Utils/LoggerUtil.js");
-const env = require("dotenv").config({ path: require("find-config")(".env") });
+const env = require("dotenv").config({ path: require("find-config")("env") });
 
 // this middleware verifies jwt token for every request
 module.exports = async (req, res, next) => {

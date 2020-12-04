@@ -5,7 +5,7 @@ const cors = require("cors");
 const multipluxer = require("./Multipluxer");
 
 // Here we can use process.env but process.env is not woking while deploying in aws server.
-const env = require("dotenv").config({ path: require("find-config")(".env") });
+const env = require("dotenv").config({ path: require("find-config")("env") });
 
 // Default aign of port if it is unavailable form env.
 const port = env.parsed.PORT || 5000;
