@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const otplib = require('otplib');
+const jwt = require("jsonwebtoken");
 const mailService = require("../Service/MailService");
 const logger = require("../Utils/LoggerUtil.js");
 const authMiddleWare = require("../Middlewares/AuthMiddleWare");
 const authenticationService = require("../Service/AuthenticationService");
+const env = require("dotenv").config({ path: require("find-config")("env") });
 
 router.post("/register", authMiddleWare, async (req, res) => {
     let reqDataMap = req.body;
@@ -27,8 +29,13 @@ router.post("/register", authMiddleWare, async (req, res) => {
 router.post("/login", authMiddleWare, (req, res) => {
     let reqDataMap = req.body;
     authenticationService.getLoginUserData(reqDataMap.user_name, reqDataMap.phone_no , reqDataMap.password).then((response) =>{
+       if(response.rowCount === 0){
+          return logger.error(req,res,404, {msg:"Invalid Credentials"});
+       }
+       let userData = response.rows.pop();
+       setJwtToken(res, userData);
         return logger.response(req,res, {msg:"Data Fetched Successfully",
-               rows: response.rows});
+                     userData});
      }).catch((error) =>{
          return logger.error(req,res,500, {msg:"DB Error"}, error);
      });
@@ -69,5 +76,26 @@ router.put("/updatePassword", authMiddleWare, async(req, res) => {
          return logger.error(req,res,500, {msg:"Failded To Send OTP. Contact Admin"}, error);
      });
 });
+
+
+router.get("/logout",authMiddleWare, (req, res) => {
+    res.clearCookie("jwt");
+    return logger.response(req, res, {msg : "User Logged Out Successfully"});
+});
+
+function setJwtToken(res, userData){
+  const authToken = jwt.sign(
+        { userData },
+        env.parsed.JWT_SECRET_KEY,
+        { expiresIn: 12000 }
+    );
+    // httpOnly true enbles only server to read cookies. It block client to make 
+    // access this cookies
+    res.cookie("jwt", authToken, {
+        httpOnly: true,
+        sameSite: true,
+    });
+}
+
 
 module.exports = router;

@@ -8,8 +8,12 @@ const profileService = require("../Service/ProfileService");
 router.post("/viewProfile", authMiddleWare, (req, res) => {
     let reqDataMap = req.body;
     profileService.getUserData(reqDataMap.user_name , reqDataMap.phone_no).then((response) =>{
+        if(response.rowCount === 0){
+            return logger.error(req,res,404, {msg:"User Not Found"});
+         }
+        let userData =  response.rows.pop();
         return logger.response(req,res, {msg:"Data Fetched Successfully",
-               rows: response.rows});
+                   userData});
      }).catch((error) =>{
          return logger.error(req,res,500, {msg:"DB Error"}, error);
      });

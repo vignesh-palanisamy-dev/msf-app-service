@@ -1,12 +1,14 @@
 const jwt = require("jsonwebtoken");
 const logger = require("../Utils/LoggerUtil.js");
 const env = require("dotenv").config({ path: require("find-config")("env") });
-const excludedRouteList = ['register','login', 'forgetPassword','updatePassword', 'viewProfile', 'updateProfile'];
+const excludedRouteList = ['register','login', 'forgetPassword','updatePassword'];
 
 // this middleware verifies jwt token for every request
 module.exports = async (req, res, next) => {
     try {
       logger.request(req);
+      
+      // auth check occurs only after login successfull
       if(isInExcludedList(req.originalUrl)){
         next();
         return;
@@ -24,7 +26,7 @@ module.exports = async (req, res, next) => {
        // here we can send mail to service owners to intimate un authorized access
        return logger.error(req, res, 401, "Un Authorized Request");
     } catch (error) {
-      return logger.error(req, res, 500, "Error During Authorization", error);
+      return logger.error(req, res, 401, "Un Authorized Request", error);
     }
   };
 
