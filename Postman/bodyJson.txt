@@ -1,0 +1,22 @@
+PUT : http://localhost:3000/msf-app-serve-node/register
+
+{
+   "user_id":"abcd",
+   "user_name":"vignespa",
+   "email_id":"vignesh.gobitbyte@gmail.com",
+   "password":"12345",
+   "first_name":"Vignesh",
+   "last_name":"Palanisamy",
+   "d_o_b":"19/01/1997",
+   "phone_no": 9500335479,
+   "company_name":"msg",
+   "experience": 3
+}
+
+POST : http://localhost:3000/msf-app-serve-node/login
+
+{
+   "user_name":"vignespa",
+   "email_id":"vignesh.gobitbyte@gmail.com",
+   "password":"12345"
+}

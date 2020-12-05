@@ -4,3 +4,5 @@ CONTEXT_PATH = /msf-app-serve-node
 MAIL_SOURCE= gmail
 MAIL_USER= vignesh.msf.india@gmail.com
 MAIL_PASSWORD= msf.india
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres
+DB_SCHEMA= public
