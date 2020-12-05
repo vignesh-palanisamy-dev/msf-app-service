@@ -5,9 +5,9 @@ const authMiddleWare = require("../Middlewares/AuthMiddleWare");
 const authenticationService = require("../Service/AuthenticationService");
 const profileService = require("../Service/ProfileService");
 
-router.get("/viewProfile", authMiddleWare, (req, res) => {
+router.post("/viewProfile", authMiddleWare, (req, res) => {
     let reqDataMap = req.body;
-    authenticationService.getExistUserData(reqDataMap.user_name , reqDataMap.phone_no).then((response) =>{
+    profileService.getUserData(reqDataMap.user_name , reqDataMap.phone_no).then((response) =>{
         return logger.response(req,res, {msg:"Data Fetched Successfully",
                rows: response.rows});
      }).catch((error) =>{
@@ -15,8 +15,13 @@ router.get("/viewProfile", authMiddleWare, (req, res) => {
      });
 });
 
-router.get("/updateProfile", authMiddleWare, (req, res) => {
+router.put("/updateProfile", authMiddleWare, async (req, res) => {
     let reqDataMap = req.body;
+    let response = await authenticationService.getExistUserData(reqDataMap.user_name , reqDataMap.phone_no);
+    if(response.rowCount === 0){
+        // retrun if user is not found
+        return logger.error(req,res,404, "User Not Found");
+    }
     profileService.updateUserData(reqDataMap.user_name , reqDataMap.phone_no, reqDataMap).then(() =>{
         return logger.response(req,res, {msg:"Data Updated Successfully"});
      }).catch((error) =>{

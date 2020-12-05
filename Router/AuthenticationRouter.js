@@ -66,7 +66,7 @@ router.put("/updatePassword", authMiddleWare, async(req, res) => {
     authenticationService.updatePassword(userData.user_name , userData.phone_no,  newPassword).then(() =>{
         return logger.response(req,res, {msg : "Password Updated Successfully"});
      }).catch((error) =>{
-         return logger.error(req,res,500, {msg:"DB Error"}, error);
+         return logger.error(req,res,500, {msg:"Failded To Send OTP. Contact Admin"}, error);
      });
 });
 

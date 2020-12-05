@@ -10,7 +10,7 @@ const client = new Client({
 
 client.connect().then(() =>{
     console.log("##### LOG : "+new Date().toISOString() + " : DB Connected ");
-    createTable();
+    // createTable();
 }).catch((error) =>{
     console.log("##### ERROR : "+new Date().toISOString() + ": Failed To Connect DB ");
     console.log(error);

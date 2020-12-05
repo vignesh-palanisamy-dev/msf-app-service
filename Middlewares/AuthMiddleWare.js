@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const logger = require("../Utils/LoggerUtil.js");
 const env = require("dotenv").config({ path: require("find-config")("env") });
-const excludedRouteList = ['register','login', 'forgetPassword','updatePassword'];
+const excludedRouteList = ['register','login', 'forgetPassword','updatePassword', 'viewProfile', 'updateProfile'];
 
 // this middleware verifies jwt token for every request
 module.exports = async (req, res, next) => {

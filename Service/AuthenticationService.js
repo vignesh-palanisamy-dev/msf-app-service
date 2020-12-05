@@ -19,21 +19,21 @@ exports.getLoginUserData = function(user_name, phone_no, password){
     let queryString = `SELECT user_name, phone_no, email_id, first_name, last_name,
     d_o_b, company_name, experience, created_by, created_at, updated_by, updated_at
     FROM ${dbSchema}.user_details WHERE (password = '${password}' AND ( user_name = '${user_name}' 
-    OR  phone_no = '${phone_no}') )`;
+    OR  phone_no = ${phone_no}) )`;
     return dbClient.query(queryString);
  }
 
  exports.getExistUserData = function(user_name, phone_no){
     let queryString = `SELECT  user_name, email_id, phone_no
     FROM ${dbSchema}.user_details WHERE  ( user_name = '${user_name}' 
-    OR  phone_no = '${phone_no}') `;
+    OR  phone_no = ${phone_no}) `;
     return dbClient.query(queryString);
  }
 
  exports.updatePassword = function(user_name, phone_no, password){
-    let queryString = `UPDATE ${dbSchema}.user_details SET  password = ${password}
+    let queryString = `UPDATE ${dbSchema}.user_details SET  password = '${password}'
     WHERE  ( user_name = '${user_name}' 
-    AND  phone_no = '${phone_no}') `;
+    AND  phone_no = ${phone_no}) `;
     return dbClient.query(queryString);
  }
 

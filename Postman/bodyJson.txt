@@ -1,15 +1,16 @@
+-- AUTHENTICATION API--
+
 PUT : http://localhost:3000/msf-app-serve-node/register
 
 {
-   "user_id":"abcd",
    "user_name":"vignespa",
    "email_id":"vignesh.gobitbyte@gmail.com",
-   "password":"12345",
+   "password":"Chennai@123",
    "first_name":"Vignesh",
    "last_name":"Palanisamy",
    "d_o_b":"19/01/1997",
    "phone_no": 9500335479,
-   "company_name":"msg",
+   "company_name":"msf",
    "experience": 3
 }
 
@@ -17,6 +18,46 @@ POST : http://localhost:3000/msf-app-serve-node/login
 
 {
    "user_name":"vignespa",
+   "password":"Chennai@123",
+   "phone_no": 9500335479,
+}
+
+POST : http://localhost:3000/msf-app-serve-node/forgetPassword
+
+{
+   "user_name":"vignespa",
    "email_id":"vignesh.gobitbyte@gmail.com",
-   "password":"12345"
+   "phone_no": 9500335479,
+}
+
+PUT : http://localhost:3000/msf-app-serve-node/updatePassword
+
+{
+   "user_name":"vignespa",
+   "password":"newPassword",
+   "phone_no": 9500335479,
+}
+
+-- PROFILE API--
+
+POST : http://localhost:3000/msf-app-serve-node/viewProfile
+
+{
+
+   "user_name":"vignespa",
+   "phone_no": 9500335479
+}
+
+PUT : http://localhost:3000/msf-app-serve-node/updateProfile
+
+{
+   "user_name":"vignespa",
+   "phone_no": 9500335479,
+   "email_id":"vignesh.gobitbyte@gmail.com",
+   "password":"Chennai@123",
+   "first_name":"Vignesh",
+   "last_name":"Palanisamy",
+   "d_o_b":"19/01/1997",
+   "company_name":"msf",
+   "experience": 3
 }
