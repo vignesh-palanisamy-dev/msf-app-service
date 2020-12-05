@@ -18,7 +18,7 @@ client.connect().then(() =>{
 
 
 function createTable(){
-  let dropQueryString = `DROP TABLE ${dbSchema}.user_details`;
+  let dropQueryString = `DROP TABLE IF EXISTS ${dbSchema}.user_details`;
   client.query(dropQueryString).then(() =>{
     let createQueryString = `CREATE TABLE ${dbSchema}.user_details
     (
