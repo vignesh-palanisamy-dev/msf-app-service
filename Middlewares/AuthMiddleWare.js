@@ -18,7 +18,9 @@ module.exports = async (req, res, next) => {
       // verify token from cookie
       let response = await jwt.verify(token, env.parsed.JWT_SECRET_KEY);
       if(response){
-          req.body = response.userData;
+        // For session maintainance
+        if(req.originalUrl.includes("viewProfile"))
+              req.body = response.userData;
           // If jwt is verifed then it proceed to next route
           next();
           return;
