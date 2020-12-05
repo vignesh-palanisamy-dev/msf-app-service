@@ -7,7 +7,7 @@ const excludedRouteList = ['register','login', 'forgetPassword','updatePassword'
 module.exports = async (req, res, next) => {
     try {
       logger.request(req);
-      
+
       // auth check occurs only after login successfull
       if(isInExcludedList(req.originalUrl)){
         next();
@@ -18,6 +18,7 @@ module.exports = async (req, res, next) => {
       // verify token from cookie
       let response = await jwt.verify(token, env.parsed.JWT_SECRET_KEY);
       if(response){
+          req.body = response.userData;
           // If jwt is verifed then it proceed to next route
           next();
           return;
