@@ -12,7 +12,7 @@ router.post("/register", authMiddleWare, async (req, res) => {
         // In future nodemailer is implemented to support all domain 
         return logger.error(req,res,400, {msg : "Try Email With Domain Gmail.Com"});
     }
-    let response = await authenticationService.getExistUserData(reqDataMap.user_name , reqDataMap.email_id);
+    let response = await authenticationService.getExistUserData(reqDataMap.user_name , reqDataMap.phone_no);
     if(response.rowCount > 0){
         // return if user already exists
         return logger.error(req,res,409, {msg : "User Already Exists", rows:response.rows});
@@ -26,7 +26,7 @@ router.post("/register", authMiddleWare, async (req, res) => {
 
 router.post("/login", authMiddleWare, (req, res) => {
     let reqDataMap = req.body;
-    authenticationService.getLoginUserData(reqDataMap.user_name, reqDataMap.email_id , reqDataMap.password).then((response) =>{
+    authenticationService.getLoginUserData(reqDataMap.user_name, reqDataMap.phone_no , reqDataMap.password).then((response) =>{
         return logger.response(req,res, {msg:"Data Fetched Successfully",
                rows: response.rows});
      }).catch((error) =>{
@@ -37,7 +37,7 @@ router.post("/login", authMiddleWare, (req, res) => {
 router.post("/forgetPassword", authMiddleWare, async(req, res) => {
     // Future implementation with OAuth
     let reqDataMap = req.body;
-    let response = await authenticationService.getExistUserData(reqDataMap.user_name , reqDataMap.email_id);
+    let response = await authenticationService.getExistUserData(reqDataMap.user_name , reqDataMap.phone_no);
     if(response.rowCount === 0){
         // retrun if user is not found
         return logger.error(req,res,404, "User Not Found");
@@ -57,13 +57,13 @@ router.post("/forgetPassword", authMiddleWare, async(req, res) => {
 router.put("/updatePassword", authMiddleWare, async(req, res) => {
     let reqDataMap = req.body;
     let newPassword = req.body.password;
-    let response = await authenticationService.getExistUserData(reqDataMap.user_name , reqDataMap.email_id);
+    let response = await authenticationService.getExistUserData(reqDataMap.user_name , reqDataMap.phone_no);
     if(response.rowCount === 0){
         // retrun if user is not found
         return logger.error(req,res,404, "User Not Found");
     }
     let userData = response.rows.pop();
-    authenticationService.updatePassword(userData.user_name , userData.email_id,  newPassword).then(() =>{
+    authenticationService.updatePassword(userData.user_name , userData.phone_no,  newPassword).then(() =>{
         return logger.response(req,res, {msg : "Password Updated Successfully"});
      }).catch((error) =>{
          return logger.error(req,res,500, {msg:"DB Error"}, error);
