@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
         next();
         return;
       }
-      let token = req.cookies.jwt;
+      let token = req.cookies.token;
 
       // verify token from cookie
       let response = await jwt.verify(token, env.parsed.JWT_SECRET_KEY);

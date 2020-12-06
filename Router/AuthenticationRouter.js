@@ -16,8 +16,9 @@ router.post("/register", authMiddleWare, async (req, res) => {
     }
     let response = await authenticationService.getExistUserData(reqDataMap.user_name , reqDataMap.phone_no);
     if(response.rowCount > 0){
+        let userData = response.rows.pop();
         // return if user already exists
-        return logger.error(req,res,409, {msg : "User Already Exists", rows:response.rows});
+        return logger.error(req,res,409, {msg : "User Already Exists", userData});
     }
     authenticationService.insertRegisterUserData(reqDataMap).then(() =>{
        return logger.response(req,res,  {msg:"Data Inserted Successfully"})
@@ -78,8 +79,8 @@ router.put("/updatePassword", authMiddleWare, async(req, res) => {
 });
 
 
-router.get("/logout",authMiddleWare, (req, res) => {
-    res.clearCookie("jwt");
+router.post("/logout",authMiddleWare, (req, res) => {
+    res.clearCookie("token");
     return logger.response(req, res, {msg : "User Logged Out Successfully"});
 });
 
@@ -91,9 +92,8 @@ function setJwtToken(res, userData){
     );
     // httpOnly true enbles only server to read cookies. It block client to make 
     // access this cookies
-    res.cookie("jwt", authToken, {
-        httpOnly: true,
-        sameSite: true,
+    res.cookie("token", authToken, {
+        httpOnly: true
     });
 }
 

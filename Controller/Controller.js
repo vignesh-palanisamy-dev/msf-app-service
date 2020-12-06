@@ -2,8 +2,19 @@
 const express = require("express");
 const controller = express();
 const cors = require("cors");
+const path = require('path');
 const cookieParser = require("cookie-parser");
 const multipluxer = require("./Multipluxer");
+
+// Tell Express to serve up the public folder and everything inside of it
+// This done for heroku deployment
+const publicPath = path.join(__dirname, '..','..', 'build');
+controller.use(express.static(publicPath));
+
+// For every get response it redirect to index.html
+controller.get('*', (req, res) => {
+    res.sendFile(path.join(publicPath, 'index.html'));
+ });
 
 // Connect DB
 require("../Utils/DBUtils");
@@ -11,7 +22,7 @@ require("../Utils/DBUtils");
 // Here we can use process.env but process.env is not woking while deploying in aws server.
 const env = require("dotenv").config({ path: require("find-config")("env") });
 
-// Default aign of port if it is unavailable form env.
+// Default asign of port if it is unavailable from env.
 // But in heroku it need process.env.PORT  (they add port in .env dynamically)
 const port = process.env.PORT || env.parsed.PORT || 3000;
 
@@ -19,7 +30,8 @@ controller.use(cookieParser());
 
 // Allow all origin to access this server resource.
 // In Production :  Need to allow particular origin. 
-controller.use(cors());
+controller.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+
 
 // parse data based on content-type (json/byte)
 controller.use(express.json());
